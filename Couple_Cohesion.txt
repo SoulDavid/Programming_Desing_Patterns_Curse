@@ -1,0 +1,34 @@
+public class Character : Monobehaviour, IAttackable
+{
+	[SerializeField] private Animator anim;
+	[SerializeField] private AudioSource audioSource;
+	[SerializeField] private AudioClip shout;
+	private float healht = 100f;
+
+	public void DamageCharacter()
+	{
+		animator.SetTrigger("KnockBack");
+		audioSource.PlayOneShot(shout);
+		health -= 10;
+	}
+}
+
+
+public class Enemy : Monobehaviour
+{
+	public void Attack(IAttackable target)
+	{
+		target.DamageCharacter();
+	}
+}
+
+public interface IAttackable
+{
+	void DamageCharacter();
+}
+
+An interface is a sort of a contract. An interface says that any class that implements the interface is guaranteed to have the methods listed in the interface.
+
+This means that objects don’t have to have direct relationships or inheritance to be considered items of a the interface type. All a calling object needs to know is that the item implements that type.
+
+In this instance, the variable target is not actually given any information about the HighCohesionCharacter class at all, except for the pointer to the object itself. In fact, the only methods you can call on target is the TakeHit() method, as it’s the one implemented in the interface.
